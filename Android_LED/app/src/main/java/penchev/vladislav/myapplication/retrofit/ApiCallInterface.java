@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 public interface ApiCallInterface {
 
     // Base url
-    String BASE_URL = "http://192.168.1.31/5/";
+    String BASE_URL = "http://192.168.0.104/5/";
 
     @GET("off")
     Call<JsonObject> off();
