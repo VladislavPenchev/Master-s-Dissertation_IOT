@@ -16,7 +16,8 @@ G=tf(sys)
 sigma(G),grid on
 
 %Postroqvane na vremevite harakteristikki na obekta za upravlenie
-step(G,10),grid on
+step(G(1,1),1),grid on
+step(G(1,2)),grid on
 
 %%-------
 t = 0:0.1:141/10

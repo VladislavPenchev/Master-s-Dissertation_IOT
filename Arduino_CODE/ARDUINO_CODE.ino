@@ -69,21 +69,18 @@ void loop() {
 
   //ReceveCommands();
   
-//test
+
 //    sensorValue = analogRead(LDR_PIN);
 //    digitalWrite(LED_PIN,HIGH);
 //    Serial.print(sensorValue);
 //    Serial.println("------");
 //    double sensorValueInDiaposon = sensorValue;
-//    sensorValueInDiaposon = sensorValueInDiaposon / 160;
+//    sensorValueInDiaposon = sensorValueInDiaposon / 130;
 //    Serial.println(sensorValueInDiaposon);
 
 
-//
-
-
- //move(100, 1); // full speed, left  
-  RunMotor(); 
+ //move(100, 0); // full speed, left  
+ RunMotor(); 
   
 
   //FillArrayWithValuesFromLDR (LOWER_LIMIT, UPPER_LIMIT);
@@ -172,14 +169,14 @@ void RunMotor(){
   //Serial.print("LDR = ");
   //Serial.println(sensorValueInDiaposon);
 
-  controller.setRef(0.);
+  controller.setRef(0.3);
   controller.setOsv(sensorValueInDiaposon); 
   controller.step();
 
   double lampFromMATLAB = controller.getLamp();
   lampFromMATLAB = lampFromMATLAB * 255.0;
   double motorFromMATLAB = controller.getMotor();
-  motorFromMATLAB = motorFromMATLAB * 50.0;
+  motorFromMATLAB = motorFromMATLAB * 5.0;
 
 
   if(lampFromMATLAB > 255){
@@ -195,7 +192,7 @@ void RunMotor(){
   }
 
 
-//
+
 //  if(pos > x && motorFromMATLAB > 0){
 //    motorFromMATLAB = 0;
 //  }else if (pos < 0 && motorFromMATLAB < 0){
@@ -226,7 +223,7 @@ void RunMotor(){
 
   analogWrite(LED_PIN,lampFromMATLAB);
 
-  delay(125);
+  delay(100);
 }
 
 //------------------------------------------------------------------------------

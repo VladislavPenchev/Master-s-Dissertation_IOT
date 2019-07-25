@@ -1,8 +1,8 @@
 // Load Wi-Fi library
 #include <ESP8266WiFi.h>
 
-const char* SSID = "VIVACOM_604044";              //"arduino_test";  //"King";         //FAVICEDEAN //M-Tel_9BCC VIVACOM_604044
-const char* PASSWORD = "Na_Pen4o_neta";       //"12345678";      //"";     //veselavesela  //48575443929BCC83
+const char* SSID = "M-Tel_9BCC";              //"arduino_test";  //"King";         //FAVICEDEAN //M-Tel_9BCC VIVACOM_604044
+const char* PASSWORD = "48575443929BCC83";       //"12345678";      //"";     //veselavesela  //48575443929BCC83
 const int NUMBER_SIZE_ARRAY_READ_FROM_ARDUINO = 10;
 const int COMMAND_TURN_LED_ON = 200;
 const int COMMAND_TURN_LED_OFF = 201;
@@ -60,7 +60,6 @@ void setup() {
 
   // Connect to Wi-Fi network with SSID and password
  
-  //Serial.println(ssid);
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -111,9 +110,8 @@ void loop(){
               output5State = "off";
               Serial.write(COMMAND_TURN_LED_OFF);
             } else if (header.indexOf("GET /SUBMIT") >= 0) {
-              submitButton = "SUBMIT";
-              //Serial.write(COMMAND_SEND_VALUES_FROM_MCU_TO_ARDUINO);
-              //Serial.print(submitButton);
+              submitButton = "";
+
             }
 
             if (header.indexOf("ValuesForArduino") >= 0) {
@@ -137,7 +135,6 @@ void loop(){
               Serial.write(COMMAND_SEND_VALUES_FROM_MCU_TO_ARDUINO);
               Serial.print(result);
             }
-            //submitButton = header;
 
 //-------------------------------------------------------------------------------          
             
@@ -165,8 +162,8 @@ void loop(){
             testPost +="</form>";
             client.println(header);
             client.println(testPost);
-            client.println(submitButton);
-            client.println("<p> "+ submitButton + "</p>");
+            //client.println(submitButton);
+            //client.println("<p> "+ submitButton + "</p>");
             
 //            if(submitButton=="SUBMIT"){
 //              //client.println("<a href=\"/SUBMIT\"><button class=\"button\">SUBMIT</button></a>");
@@ -189,8 +186,6 @@ void loop(){
               
               unsigned char in = Serial.read();
 
-              client.println("IN1");
-
               ConvertRecivedNumberFromArduinoAndAddInArray(in,iterLDR,arrLDR);
               
               SplitNumbersFromIterLDRInline();
@@ -203,14 +198,15 @@ void loop(){
                 String test = "<p>";
                 test+= in;
                 test+="</p>";
-                client.println(test);
+                //client.println(test);
 
                 String arrr = "";
                 delay(10);
+                
                 while(Serial.available() > 0){ 
                   delay(10);
                 char ch = Serial.read();
-                  
+              
                 arrr += ch;
                 }
 
@@ -253,14 +249,11 @@ void loop(){
 
 void ConvertRecivedNumberFromArduinoAndAddInArray(unsigned char in, int iterLDR, short arrLDR[]){
 
-  client.println("IN2");
   //202 Read from arduino
   if(in == COMMAND_READ_VALUES_FROM_ARDUINO){        
-
-           client.println("IN3");
             
     for(iterLDR = 0; iterLDR < NUMBER_SIZE_ARRAY_READ_FROM_ARDUINO; iterLDR++){
-      client.println(iterLDR);
+      //client.println(iterLDR);
 
     //first bits
     unsigned char hi = Serial.read();
@@ -273,21 +266,19 @@ void ConvertRecivedNumberFromArduinoAndAddInArray(unsigned char in, int iterLDR,
     arrLDR[iterLDR] = y;                
     }
     flagREAD202COMPLETE = true;
-    client.println(iterLDR);
+    //client.println(iterLDR);
   }
 }
 
 void SplitNumbersFromIterLDRInline(){
-
-  client.println("IN4");
-  client.println(flagREAD202COMPLETE);
+  //client.println(flagREAD202COMPLETE);
   
     //loop arrLDR and assign values in text line
     if(flagREAD202COMPLETE){
       for (int i = 0; i < NUMBER_SIZE_ARRAY_READ_FROM_ARDUINO; i++) {
         stringJoinLdrArr+=arrLDR[i];
         stringJoinLdrArr+= " ";
-        client.println(stringJoinLdrArr);
+        //client.println(stringJoinLdrArr);
       }
       
     //create HTML(input) and fill values from Arduino LDR array
